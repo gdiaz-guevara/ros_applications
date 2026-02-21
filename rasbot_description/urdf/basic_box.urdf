@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot name="basic_shapes">
+
+  <link name="base_link">
+    <visual>
+        <geometry>
+            <box size="1.0 1.0 0.2"/>
+        </geometry>
+    </visual>
+  </link>
+
+  
+</robot>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot name="basic_shapes">
+
+  <material name="yellow">
+    <color rgba="1 1 0 1"/>
+  </material>
+  <link name="base_link">
+    <visual>
+        <origin xyz="0 0 -1"/>
+        <geometry>
+            <box size="1.0 1.0 0.2"/>
+        </geometry>
+        <material name="yellow"/>
+    </visual>
+  </link>
+
+  <link name="link1">
+    <visual>
+      <geometry>
+        <box size="1 1 1"/>
+      </geometry>
+    </visual>
+  </link>
+  
+  <joint name="joint1" type="fixed">
+    <origin xyz="0 0 1"/>
+    <parent link="base_link"/>
+    <child link="link1"/>
+  </joint>
+</robot>

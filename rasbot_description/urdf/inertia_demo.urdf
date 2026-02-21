@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot name="basic_shapes">
+
+  <material name="yellow">
+    <color rgba="1 1 0 1"/>
+  </material>
+
+  <material name="red">
+    <color rgba="1 0 0 1"/>
+  </material>
+
+  <material name="green">
+    <color rgba="0 1 0 1"/>
+  </material>
+
+  <material name="blue">
+    <color rgba="0 0 1 1"/>
+  </material>
+
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+
+  <link name="base_link">
+    <visual>
+        <geometry>
+            <!-- <box size="1.0 1.0 0.2"/> -->
+             <mesh filename="package://rasbot_description/meshes/chassis.stl"/>
+        </geometry>
+        <material name="blue"/>
+    </visual>
+    <collision>
+        <geometry>
+            <mesh filename="package://rasbot_description/meshes/chassis.stl"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="2.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.02" iyy="0.05" izz="0.06" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+
+  </link>
+
+  <link name="link1">
+    <visual>
+      <geometry>
+        <box size="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+        <geometry>
+            <box size="1 1 1"/>
+        </geometry>
+    </collision>
+  </link>
+  
+  <joint name="joint1" type="fixed">
+    <origin xyz="0 0 1"/>
+    <parent link="base_link"/>
+    <child link="link1"/>
+  </joint>
+</robot>
