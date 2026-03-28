@@ -22,7 +22,7 @@
       <collision>
         <origin xyz="0 0 0"/>
         <geometry>
-          <cylinder radius="0.03" length="0.02"/>
+          <box size="0.01 0.01 0.01"/>
         </geometry>
       </collision>
     </link>
@@ -32,6 +32,8 @@
       <parent link="base_link"/>
       <child link="caster_swivel"/>
       <axis xyz="0 0 1"/>
+      <dynamics damping="0.0" friction="0.0"/>
+      <limit effort="100" velocity="100" k_velocity="0"/>
     </joint>
 
     <!-- Center wheel -->
@@ -63,6 +65,8 @@
       <parent link="caster_swivel"/>
       <child link="caster_wheel"/>
       <axis xyz="0 1 0"/>
+      <limit effort="100" velocity="100" k_velocity="0"/>
+      <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
     <!-- Center hubcap -->
@@ -84,7 +88,7 @@
       <collision>
         <origin xyz="0 0 0"/>
         <geometry>
-          <box size="0.05 0.05 0.05"/>
+          <box size="0.01 0.01 0.01"/>
         </geometry>
       </collision>
     </link>
