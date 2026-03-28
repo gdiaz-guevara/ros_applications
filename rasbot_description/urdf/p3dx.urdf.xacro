@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot name="p3dx" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find rasbot_description)/urdf/p3dx_materials.urdf.xacro"/>
+  <xacro:include filename="$(find rasbot_description)/urdf/p3dx_base.urdf.xacro"/>
+  <xacro:include filename="$(find rasbot_description)/urdf/p3dx_wheels.urdf.xacro"/>
+  <xacro:include filename="$(find rasbot_description)/urdf/p3dx_caster.urdf.xacro"/>
+  <xacro:include filename="$(find rasbot_description)/urdf/p3dx_sonars.urdf.xacro"/>
+
+  <xacro:p3dx_base name="p3dx"/>
+  <xacro:p3dx_wheel suffix="left"  reflect="-1"/>
+  <xacro:p3dx_wheel suffix="right" reflect="1"/>
+  <xacro:p3dx_caster/>
+  <xacro:p3dx_sonars/>
+
+</robot>

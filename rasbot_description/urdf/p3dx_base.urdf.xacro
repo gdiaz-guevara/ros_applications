@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<robot name="p3dx_base" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find rasbot_description)/urdf/p3dx_materials.urdf.xacro"/>
+  <xacro:p3dx_materials/>
+
+  <xacro:macro name="p3dx_base" params="name">
+
+    <link name="base_link">
+      <inertial>
+        <mass value="3.5"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0"
+                 iyy="1" iyz="0"
+                 izz="1"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="-0.045 0 0.148" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://rasbot_description/meshes/p3dx/chassis.stl"/>
+        </geometry>
+        <material name="ChassisRed"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0"/>
+        <geometry>
+          <box size="0.01 0.01 0.01"/>
+        </geometry>
+      </collision>
+    </link>
+
+     <link name="top_plate">
+      <inertial>
+        <mass value="0.01"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0"
+                 iyy="1" iyz="0"
+                 izz="1"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://rasbot_description/meshes/p3dx/top.stl"/>
+        </geometry>
+        <material name="TopBlack"/>
+      </visual>
+    </link>
+
+    <joint name="base_top_joint" type="fixed">
+      <origin xyz="-0.045 0 0.234" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="top_plate"/>
+    </joint>
+    
+  </xacro:macro>
+
+</robot>

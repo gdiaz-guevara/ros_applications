@@ -50,7 +50,7 @@
     </link>
   </xacro:macro>
 
-  <xacro:create_link name="base" mass="2.0" material_name="blue"/>
+  <xacro:create_link name="base" mass="2.0" material_name="yellow"/>
 
   <link name="link1">
     <visual>
@@ -65,9 +65,16 @@
     </collision>
   </link>
   
-  <joint name="joint1" type="fixed">
+  <!-- <joint name="joint1" type="fixed">
     <origin xyz="0 0 1"/>
     <parent link="base_link"/>
     <child link="link1"/>
+  </joint> -->
+    <joint name="joint1" type="floating">
+      <origin xyz="0 0 1"/>
+      <parent link="base_link"/>
+      <child link="link1"/>
+      <axis xyz="0 0 1"/>
   </joint>
+
 </robot>

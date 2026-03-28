@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="p3dx_sonars" params="">
+
+    <!-- ========================= -->
+    <!-- FRONT SONAR               -->
+    <!-- ========================= -->
+    <link name="front_sonar">
+      <inertial>
+        <mass value="0.0001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0"
+                 iyy="1" iyz="0"
+                 izz="1"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://rasbot_description/meshes/p3dx/front_sonar.stl"/>
+        </geometry>
+        <material name="SonarYellow"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0"/>
+        <geometry>
+          <box size="0.05 0.05 0.05"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="base_front_sonar_joint" type="fixed">
+      <origin xyz="-0.198 0 0.208"/>
+      <parent link="base_link"/>
+      <child link="front_sonar"/>
+    </joint>
+
+    <!-- ========================= -->
+    <!-- BACK SONAR                -->
+    <!-- ========================= -->
+    <link name="back_sonar">
+      <inertial>
+        <mass value="0.0001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0"
+                 iyy="1" iyz="0"
+                 izz="1"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://rasbot_description/meshes/p3dx/back_sonar.stl"/>
+        </geometry>
+        <material name="SonarYellow"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0"/>
+        <geometry>
+          <box size="0.5 0.25 0.05"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="base_back_sonar_joint" type="fixed">
+      <origin xyz="0.109 0 0.209"/>
+      <parent link="base_link"/>
+      <child link="back_sonar"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>
