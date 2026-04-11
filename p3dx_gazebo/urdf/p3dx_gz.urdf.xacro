@@ -37,6 +37,40 @@
         </plugin>
     </gazebo>
 
+    <gazebo reference="rplidar_link">
+      <sensor name="sensor_ray_front" type="gpu_lidar">
+        <gz_frame_id>rplidar_link</gz_frame_id>
+
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <update_rate>5.0</update_rate>
+        <topic>scan</topic>
+
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>360</samples>
+              <resolution>1.000000</resolution>
+              <min_angle>0.000000</min_angle>
+              <max_angle>6.280000</max_angle>
+            </horizontal>
+          </scan>
+
+          <range>
+            <min>0.120000</min>
+            <max>3.5</max>
+            <resolution>0.015000</resolution>
+          </range>
+
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </lidar>
+      </sensor>
+    </gazebo>
+
     <xacro:include filename="$(find p3dx_gazebo)/urdf/robot_material_support.xacro"/>
 
 </robot>

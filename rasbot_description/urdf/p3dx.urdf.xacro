@@ -6,11 +6,19 @@
   <xacro:include filename="$(find rasbot_description)/urdf/p3dx_wheels.urdf.xacro"/>
   <xacro:include filename="$(find rasbot_description)/urdf/p3dx_caster.urdf.xacro"/>
   <xacro:include filename="$(find rasbot_description)/urdf/p3dx_sonars.urdf.xacro"/>
+  <xacro:include filename="$(find rasbot_description)/urdf/rplidar_macro.urdf.xacro"/>
 
   <xacro:p3dx_base name="p3dx"/>
-  <xacro:p3dx_wheel suffix="left"  reflect="-1"/>
-  <xacro:p3dx_wheel suffix="right" reflect="1"/>
+  <xacro:p3dx_wheel suffix="left"  reflect="1"/>
+  <xacro:p3dx_wheel suffix="right" reflect="-1"/>
   <xacro:p3dx_caster/>
   <xacro:p3dx_sonars/>
-
+  <xacro:rplidar 
+        name="rplidar"
+        parent_link="top_plate"
+        mass="0.01"
+        radius="0.015"
+        length="0.01">
+    <origin xyz="0.15 0.0 0.047" rpy="0 0 ${pi}"/>
+  </xacro:rplidar>
 </robot>

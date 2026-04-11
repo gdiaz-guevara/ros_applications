@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:macro name="inertial_cylinder" params="mass r height">
+        <inertial>
+            <mass value="${mass}"/>
+            <inertia ixx="${(1/12)*mass*(3*(r*r)+(height*height))}" ixy="0.0" ixz="0.0"
+                     iyy="${(1/12)*mass*(3*(r*r)+(height*height))}" iyz="0.0" 
+                     izz="${(1/2)*mass*(r*r)}"/>
+        </inertial>    
+    </xacro:macro> 
+
+    <xacro:macro name="rplidar" params="name parent_link mass radius length *origin">
+    <joint name="${name}_joint" type="fixed">
+        <parent link="${parent_link}"/>
+        <child link="${name}_link"/>
+        <xacro:insert_block name="origin"/>
+    </joint>
+
+    <link name="${name}_link">
+        <visual>
+        <geometry>
+            <mesh filename="package://rasbot_description/meshes/p3dx/rplidar.dae" scale="1 1 1"/>
+        </geometry>
+        </visual>
+
+        <collision>
+        <origin xyz="0.0 0.0 0.0"/>
+        <geometry>
+            <mesh filename="package://rasbot_description/meshes/p3dx/rplidar.dae" scale="1 1 1"/>
+        </geometry>
+        </collision>
+
+        <xacro:inertial_cylinder
+        mass="${mass}"
+        r="${radius}"
+        height="${length}"/>
+    </link>
+    </xacro:macro>
+
+</robot>
