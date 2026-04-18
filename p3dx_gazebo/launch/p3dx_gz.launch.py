@@ -20,7 +20,7 @@ ARGUMENTS = [
     DeclareLaunchArgument('robot_description_topic', default_value='robot_description'),
     DeclareLaunchArgument('rsp_frequency', default_value='30.0'),
     DeclareLaunchArgument('use_sim_time', default_value='true'),
-    DeclareLaunchArgument('entity', default_value='rasbot'),
+    DeclareLaunchArgument('entity', default_value='p3dx'),
 ]
 
 
@@ -46,7 +46,15 @@ def generate_launch_description():
     ros_bridge = LaunchConfiguration('ros_bridge')
     world_path = PathJoinSubstitution([pkg_p3dx_gazebo,'worlds',world_name])
     bridge_config_file_path = os.path.join(pkg_p3dx_gazebo, 'config', 'bridge_config.yaml')
+    set_env_vars_resources = AppendEnvironmentVariable(
+        'GZ_SIM_RESOURCE_PATH',
+        os.path.join(
+            pkg_p3dx_gazebo,
+            'models'
+        )
+    )
 
+    ld.add_action(set_env_vars_resources)
     ld.add_action(
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(gz_launch_path),

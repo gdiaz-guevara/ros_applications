@@ -16,6 +16,7 @@ install(
     launch
     urdf
     worlds
+    models
   DESTINATION
     share/${PROJECT_NAME}/
 )
