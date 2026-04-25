@@ -1,84 +1,161 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="p3dx">
 
-    <xacro:include filename="$(find rasbot_description)/urdf/p3dx.urdf.xacro"/>
+  <xacro:include filename="$(find rasbot_description)/urdf/p3dx.urdf.xacro"/>
+  <gazebo>
+      <plugin filename="gz-sim-diff-drive-system"
+              name="gz::sim::systems::DiffDrive">
 
-    <gazebo>
-        <plugin filename="gz-sim-diff-drive-system"
-                name="gz::sim::systems::DiffDrive">
+          <left_joint>p3dx_left_wheel_joint</left_joint>
+          <right_joint>p3dx_right_wheel_joint</right_joint>
 
-            <left_joint>p3dx_left_wheel_joint</left_joint>
-            <right_joint>p3dx_right_wheel_joint</right_joint>
+          <wheel_separation>0.31</wheel_separation>
+          <wheel_radius>0.0868</wheel_radius>
+          <topic>cmd_vel</topic>
 
-            <wheel_separation>0.31</wheel_separation>
-            <wheel_radius>0.0868</wheel_radius>
-            <topic>cmd_vel</topic>
-
-            <odom_topic>/unused/diff_drive_odometry</odom_topic>
-             <tf_topic>/unused/diff_drive_tf</tf_topic>
-            <frame_id>odom_diff_drive</frame_id>
-            <child_frame_id>base_link</child_frame_id>
-            <odom_publish_frequency>1</odom_publish_frequency>
-        </plugin>
-    </gazebo>
-
-    <gazebo>
-      <plugin
-        filename="gz-sim-odometry-publisher-system"
-        name="gz::sim::systems::OdometryPublisher">
-        <odom_publish_frequency>20</odom_publish_frequency>
-        <robot_base_frame>base_link</robot_base_frame>
-        <odom_frame>odom</odom_frame>
-        <odom_topic>odom</odom_topic>
+          <odom_topic>/unused/diff_drive_odometry</odom_topic>
+            <tf_topic>/unused/diff_drive_tf</tf_topic>
+          <frame_id>odom_diff_drive</frame_id>
+          <child_frame_id>base_link</child_frame_id>
+          <odom_publish_frequency>1</odom_publish_frequency>
       </plugin>
-    </gazebo>
+  </gazebo>
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-odometry-publisher-system"
+      name="gz::sim::systems::OdometryPublisher">
+      <odom_publish_frequency>20</odom_publish_frequency>
+      <robot_base_frame>base_link</robot_base_frame>
+      <odom_frame>odom</odom_frame>
+      <odom_topic>odom</odom_topic>
+    </plugin>
+  </gazebo>
 
 
-    <gazebo>
-        <plugin filename="gz-sim-joint-state-publisher-system"
-                name="gz::sim::systems::JointStatePublisher">
-            <topic>joint_states</topic>
-            <joint_name>p3dx_left_wheel_joint</joint_name>
-            <joint_name>p3dx_right_wheel_joint</joint_name>
-            <joint_name>base_caster_swivel_joint</joint_name>
-            <joint_name>caster_swivel_wheel_joint</joint_name>
-        </plugin>
-    </gazebo>
+  <gazebo>
+      <plugin filename="gz-sim-joint-state-publisher-system"
+              name="gz::sim::systems::JointStatePublisher">
+          <topic>joint_states</topic>
+          <joint_name>p3dx_left_wheel_joint</joint_name>
+          <joint_name>p3dx_right_wheel_joint</joint_name>
+          <joint_name>base_caster_swivel_joint</joint_name>
+          <joint_name>caster_swivel_wheel_joint</joint_name>
+      </plugin>
+  </gazebo>
 
-    <gazebo reference="rplidar_link">
-      <sensor name="sensor_ray_front" type="gpu_lidar">
-        <gz_frame_id>rplidar_link</gz_frame_id>
+  <gazebo reference="rplidar_link">
+    <sensor name="sensor_ray_front" type="gpu_lidar">
+      <gz_frame_id>rplidar_link</gz_frame_id>
 
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+      <update_rate>10.0</update_rate>
+      <topic>scan</topic>
+
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159265</min_angle>
+            <max_angle>3.14159265</max_angle>
+          </horizontal>
+        </scan>
+
+        <range>
+          <min>0.20</min>
+          <max>12.0</max>
+          <resolution>0.01</resolution>
+        </range>
+
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </lidar>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="gps_link">
+    <sensor name="navsat" type="navsat">
+      <always_on>true</always_on>
+      <update_rate>1</update_rate>
+      <topic>gps/fix</topic>
+      <gz_frame_id>gps_link</gz_frame_id>
+      <navsat>
+        <position_sensing>
+          <horizontal>
+          <!-- Be carefull setting this.
+          Units in degree not in meters https://github.com/gazebosim/sdformat/issues/1572 -->
+            <noise type="gaussian">
+              <mean>0.0</mean>
+              <stddev>0.0</stddev>
+            </noise>
+          </horizontal>
+          <vertical>
+            <noise type="gaussian">
+              <mean>0.0</mean>
+              <stddev>0.0</stddev>
+            </noise>
+          </vertical>
+        </position_sensing>
+      </navsat>
+    </sensor>      
+  </gazebo>
+
+  <gazebo reference="imu_link">
+    <sensor name="p3dx_imu" type="imu">
         <always_on>true</always_on>
-        <visualize>true</visualize>
-        <update_rate>10.0</update_rate>
-        <topic>scan</topic>
-
-        <lidar>
-          <scan>
-            <horizontal>
-              <samples>720</samples>
-              <resolution>1</resolution>
-              <min_angle>-3.14159265</min_angle>
-              <max_angle>3.14159265</max_angle>
-            </horizontal>
-          </scan>
-
-          <range>
-            <min>0.20</min>
-            <max>12.0</max>
-            <resolution>0.01</resolution>
-          </range>
-
-          <noise>
-            <type>gaussian</type>
-            <mean>0.0</mean>
-            <stddev>0.01</stddev>
-          </noise>
-        </lidar>
+        <update_rate>200</update_rate>
+        <topic>imu/data</topic>
+        <gz_frame_id>imu_link</gz_frame_id>
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
       </sensor>
-    </gazebo>
+  </gazebo>
 
-    <xacro:include filename="$(find p3dx_gazebo)/urdf/robot_material_support.xacro"/>
+  <xacro:include filename="$(find p3dx_gazebo)/urdf/robot_material_support.xacro"/>
 
 </robot>

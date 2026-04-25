@@ -4,7 +4,7 @@ from launch import LaunchDescription
 from launch.actions import (AppendEnvironmentVariable, DeclareLaunchArgument, SetEnvironmentVariable,
                             IncludeLaunchDescription, SetLaunchConfiguration)
 from launch.conditions import IfCondition
-from launch.substitutions import PathJoinSubstitution, LaunchConfiguration, TextSubstitution
+from launch.substitutions import PathJoinSubstitution, LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from xacro import process_file
@@ -78,7 +78,7 @@ def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time')
     rsp_frequency = LaunchConfiguration('rsp_frequency')
-
+    
     ld.add_action(
         Node(
             package='robot_state_publisher',
