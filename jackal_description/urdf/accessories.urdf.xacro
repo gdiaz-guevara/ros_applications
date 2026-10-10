@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Macros to generate standoffs for offset payload mounting. -->
+  <xacro:include filename="$(find jackal_description)/urdf/accessories/standoffs.urdf.xacro" />
+
+  <!-- This optional plate mounts both the upgraded GPS and the Velodyne 3D LIDAR. -->
+  <xacro:include filename="$(find jackal_description)/urdf/accessories/bridge_plate.urdf.xacro" />
+
+  <!-- 2D Lidars -->
+  <xacro:include filename="$(find jackal_description)/urdf/accessories/hokuyo_utm30.urdf.xacro" />
+
+  <!-- Primary 2D Lidar -->
+    <xacro:hokuyo_utm30_mount prefix="front" parent_link="front_mount">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:hokuyo_utm30_mount>
+
+  <!-- Secondary 2D Lidar -->
+    <xacro:hokuyo_utm30_mount prefix="rear" parent_link="rear_mount">
+    <origin xyz="0 0 0" rpy="0 0 3.14159" />
+    </xacro:hokuyo_utm30_mount>
+
+
+  <!--
+    Add a Nav. Sat. 
+  -->
+    <xacro:include filename="$(find jackal_description)/urdf/accessories/novatel_smart7.urdf.xacro" />
+  
+    <xacro:novatel_smart7 prefix="rear"/>
+    <xacro:bridge_plate prefix="rear" parent="rear_mount" height="0.1">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:bridge_plate>
+
+    <joint name="rear_navsat_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="rear_bridge" />
+        <child link="rear_navsat" />
+    </joint>
+
+
+  <!-- 
+    Add Cameras. 
+    - JACKAL_FLEA3
+  -->
+
+  <!-- Common camera mounts and accessory URDFs. -->
+  <xacro:include filename="$(find jackal_description)/urdf/accessories/camera_mount.urdf.xacro" />
+  <xacro:include filename="$(find jackal_description)/urdf/accessories/pointgrey_flea3.urdf.xacro" />
+
+    <xacro:pointgrey_flea3 frame="front_camera" name="front"
+    camera_x="0.0754" camera_y="0.029" camera_z="0.029"
+    camera_mass="0.085"/>
+
+    <xacro:camera_mount prefix="front" tilt="0.5236"/>
+
+    <joint name="front_camera_mount_joint" type="fixed">
+    <origin xyz="0 0 0"
+            rpy="0 0 0" />
+    <parent link="front_mount" />
+    <child link="front_camera_mount" />
+    </joint>
+
+    <joint name="front_camera_bracket_joint" type="fixed">
+    <origin xyz="0.020 0 0.0245" rpy="0 0 0" />
+    <parent link="front_camera_beam" />
+    <child link="front_camera" />
+    </joint>
+
+</robot>

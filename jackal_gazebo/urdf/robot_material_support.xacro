@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+    <gazebo reference="base_link">
+      <script>
+        <name>Gazebo/DarkGrey</name>
+	      <uri>file://media/materials/scripts/gazebo.material</uri>
+      </script>
+    </gazebo>
+
+    <gazebo reference="front_fender_link">
+      <script>
+        <name>Gazebo/Yellow</name>
+	      <uri>file://media/materials/scripts/gazebo.material</uri>
+      </script>
+    </gazebo>
+
+    <gazebo reference="rear_fender_link">
+      <script>
+        <name>Gazebo/Yellow</name>
+	      <uri>file://media/materials/scripts/gazebo.material</uri>
+      </script>
+    </gazebo>
+
+    <gazebo reference="navsat_link">
+      <script>
+        <name>Gazebo/Black</name>
+	      <uri>file://media/materials/scripts/gazebo.material</uri>
+      </script>
+    </gazebo>
+    
+</robot>

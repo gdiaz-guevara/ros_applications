@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="jackal">
+
+  <xacro:include filename="$(find jackal_description)/urdf/jackal.urdf.xacro"/>
+  <gazebo>
+      <plugin filename="gz-sim-diff-drive-system"
+              name="gz::sim::systems::DiffDrive">
+
+          <left_joint>front_left_wheel</left_joint>
+          <left_joint>rear_left_wheel</left_joint>
+          <right_joint>front_right_wheel</right_joint>
+          <right_joint>rear_right_wheel</right_joint>
+          <wheel_separation>0.37559</wheel_separation>
+          <wheel_radius>0.098</wheel_radius>
+          <topic>cmd_vel</topic>
+
+          <odom_topic>/unused/diff_drive_odometry</odom_topic>
+            <tf_topic>/unused/diff_drive_tf</tf_topic>
+          <frame_id>odom_diff_drive</frame_id>
+          <child_frame_id>base_link</child_frame_id>
+          <odom_publish_frequency>1</odom_publish_frequency>
+      </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-odometry-publisher-system"
+      name="gz::sim::systems::OdometryPublisher">
+      <odom_publish_frequency>20</odom_publish_frequency>
+      <robot_base_frame>base_link</robot_base_frame>
+      <odom_frame>odom</odom_frame>
+      <odom_topic>odom</odom_topic>
+    </plugin>
+  </gazebo>
+
+
+  <gazebo>
+      <plugin filename="gz-sim-joint-state-publisher-system"
+              name="gz::sim::systems::JointStatePublisher">
+          <topic>joint_states</topic>
+          <joint_name>front_left_wheel</joint_name>
+          <joint_name>front_right_wheel</joint_name>
+          <joint_name>rear_left_wheel</joint_name>
+          <joint_name>rear_right_wheel</joint_name>
+      </plugin>
+  </gazebo>
+
+  <gazebo reference="front_laser">
+    <sensor name="front_laser" type="gpu_lidar">
+      <gz_frame_id>front_laser</gz_frame_id>
+
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+      <update_rate>50.0</update_rate>
+      <topic>front/scan</topic>
+
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>1440</samples>
+            <resolution>1</resolution>
+            <min_angle>-2.2689</min_angle>
+            <max_angle>2.2689</max_angle>
+          </horizontal>
+        </scan>
+
+        <range>
+          <min>0.1</min>
+          <max>30.0</max>
+          <resolution>0.01</resolution>
+        </range>
+
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.001</stddev>
+        </noise>
+      </lidar>
+    </sensor>
+  </gazebo>
+
+  <!--TODO: Add rear laser to gazebo simulation.-->
+
+  <gazebo reference="navsat_link">
+    <sensor name="navsat" type="navsat">
+      <always_on>true</always_on>
+      <update_rate>1</update_rate>
+      <topic>gps/fix</topic>
+      <gz_frame_id>gps_link</gz_frame_id>
+      <navsat>
+        <position_sensing>
+          <horizontal>
+          <!-- Be carefull setting this.
+          Units in degree not in meters https://github.com/gazebosim/sdformat/issues/1572 -->
+            <noise type="gaussian">
+              <mean>0.0</mean>
+              <stddev>0.0</stddev>
+            </noise>
+          </horizontal>
+          <vertical>
+            <noise type="gaussian">
+              <mean>0.0</mean>
+              <stddev>0.0</stddev>
+            </noise>
+          </vertical>
+        </position_sensing>
+      </navsat>
+    </sensor>      
+  </gazebo>
+
+  <!-- TODO: Add novatev navsat Plugin. -->
+
+  <!-- TODO: Add the flea3 camera, these are the parameters:
+      hfov="1.0471975512" 
+      fps="60" 
+      width="640" 
+      height="512"
+      format:=R8G8B8
+      near:=0.5
+      far:=300
+  -->
+
+  <gazebo reference="imu_link">
+    <sensor name="jackal_imu" type="imu">
+        <always_on>true</always_on>
+        <update_rate>200</update_rate>
+        <topic>imu/data</topic>
+        <gz_frame_id>imu_link</gz_frame_id>
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+      </sensor>
+  </gazebo>
+
+  <xacro:include filename="$(find jackal_gazebo)/urdf/robot_material_support.xacro"/>
+
+</robot>
