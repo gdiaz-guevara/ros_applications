@@ -1,0 +1,81 @@
+controller_node:
+  ros__parameters:
+    use_sim_time: true
+    controller_types: [dummy]
+    dummy:
+      rt_freq: 30.0 
+      plugin: easynav_controller/DummyController
+      cycle_time_nort: 0.001
+      cycle_time_rt: 0.001
+
+localizer_node:
+  ros__parameters:
+    use_sim_time: true
+    localizer_types: [dummy]
+    dummy:
+      rt_freq: 50.0
+      freq: 5.0
+      reseed_freq: 0.1
+      plugin: easynav_localizer/DummyLocalizer
+      cycle_time_nort: 0.001
+      cycle_time_rt: 0.001
+
+maps_manager_node:
+  ros__parameters:
+    use_sim_time: true
+    map_types: [costmap, routes]
+    routes:
+      freq: 10.0 
+      plugin: easynav_routes_maps_manager/RoutesMapsManager
+      package: easynav_playground_kobuki
+      map_path_file: maps/routes_1.yaml
+      filters: [routes_costmap]
+      routes_costmap:
+        plugin: easynav_routes_maps_manager/RoutesCostmapFilter
+        min_cost: 50
+        route_width: 0.5
+      cycle_time_nort: 0.001
+      cycle_time_rt: 0.001
+    costmap:
+      freq: 10.0 
+      plugin: easynav_costmap_maps_manager/CostmapMapsManager
+      package: easynav_playground_kobuki_worlds
+      map_path_file: maps/home2.yaml
+      filters: [obstacles, inflation]
+      obstacles:
+        plugin: easynav_costmap_maps_manager/CostmapMapsManager/ObstaclesFilter
+      inflation:
+        plugin: easynav_costmap_maps_manager/CostmapMapsManager/InflationFilter
+        inflation_radius: 1.3
+        cost_scaling_factor: 3.0
+
+planner_node:
+  ros__parameters:
+    use_sim_time: true
+    planner_types: [dummy]
+    dummy:
+      freq: 1.0
+      plugin: easynav_planner/DummyPlanner
+      cycle_time_nort: 0.001
+      cycle_time_rt: 0.001
+
+sensors_node:
+  ros__parameters:
+    use_sim_time: true
+    forget_time: 0.5
+    sensors: [laser1]
+    perception_default_frame: odom
+    laser1:
+      topic: scan_raw
+      type: sensor_msgs/msg/LaserScan
+
+system_node:
+  ros__parameters:
+    # The robot's shape, shared by every component (collision checking, inflation, recovery...).
+    robot_geometry:
+      radius: 0.3
+      inscribed_radius: 0.25  # largest circle inside the robot
+      height: 0.5
+    use_sim_time: true
+    position_tolerance: 0.1
+    angle_tolerance: 0.05

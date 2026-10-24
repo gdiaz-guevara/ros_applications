@@ -61,7 +61,7 @@ def launch_setup(context, *args, **kwargs):
         root_key=namespace_str,
         param_rewrites={
             'map_name': namespace_str + '/map',
-            'scan_topic': namespace_str + '/scan',
+            'scan_topic': namespace_str + '/front/scan',
         },
         convert_types=True,
     )

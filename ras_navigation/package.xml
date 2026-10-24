@@ -10,13 +10,37 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <exec_depend>slam_toolbox</exec_depend>
-  <exec_depend>nav2_bringup</exec_depend>
-  <exec_depend>nav2_costmap_2d</exec_depend>
-  <exec_depend>nav2_controller</exec_depend>
-  <exec_depend>nav2_planner</exec_depend>
-  <exec_depend>nav2_bt_navigator</exec_depend>
-  <exec_depend>nav2_map_server</exec_depend>
-  <exec_depend>nav2_lifecycle_manager</exec_depend>
+  <exec_depend>easynav_costmap_localizer</exec_depend>
+  <exec_depend>easynav_costmap_maps_manager</exec_depend>
+  <exec_depend>easynav_costmap_planner</exec_depend>
+  <exec_depend>easynav_diagnostic_recovery</exec_depend>
+  <exec_depend>easynav_interfaces</exec_depend>
+  <exec_depend>easynav_mhamcl_localizer</exec_depend>
+  <exec_depend>easynav_mpc_controller</exec_depend>
+  <exec_depend>easynav_mppi_controller</exec_depend>
+  <exec_depend>easynav_regulated_pp_controller</exec_depend>
+  <exec_depend>easynav_routes_maps_manager</exec_depend>
+  <exec_depend>easynav_serest_controller</exec_depend>
+  <exec_depend>easynav_simple_controller</exec_depend>
+  <exec_depend>easynav_simple_localizer</exec_depend>
+  <exec_depend>easynav_simple_maps_manager</exec_depend>
+  <exec_depend>easynav_simple_planner</exec_depend>
+  <exec_depend>easynav_simple_recovery</exec_depend>
+  <exec_depend>easynav_system</exec_depend>
+  
+  <!-- Nuevas dependencias para NavMap, Bonxai y GPS -->
+  <exec_depend>easynav_bonxai_maps_manager</exec_depend>
+  <exec_depend>easynav_fusion_localizer</exec_depend>
+  <exec_depend>easynav_navmap_localizer</exec_depend>
+  <exec_depend>easynav_navmap_maps_manager</exec_depend>
+  <exec_depend>easynav_navmap_planner</exec_depend>
+
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>launch_yaml</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <exec_depend>ros2topic</exec_depend>
+  <exec_depend>rviz2</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

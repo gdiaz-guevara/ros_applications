@@ -1,0 +1,79 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Tool Properties
+    Name: Tool Properties
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Enabled: true
+      Name: Grid
+      Value: true
+    - Class: rviz_default_plugins/RobotModel
+      Description Topic:
+        Value: /robot_description
+      Enabled: true
+      Name: RobotModel
+      Value: true
+    - Class: rviz_default_plugins/LaserScan
+      Enabled: true
+      Name: LaserScan
+      Size (m): 0.03
+      Topic:
+        Value: /front/scan
+      Value: true
+    - Class: rviz_default_plugins/PointCloud2
+      Color: 0; 180; 255
+      Color Transformer: FlatColor
+      Enabled: true
+      Name: Bonxai Map
+      Size (m): 0.05
+      Topic:
+        Value: /maps_manager_node/bonxai/map_pointcloud
+      Value: true
+    - Class: navmap_rviz_plugin/NavMapDisplay
+      Color Scheme: Occupancy
+      Enabled: true
+      Layer: inflated_obstacles
+      Name: NavMapDisplay
+      Topic:
+        Value: /maps_manager_node/navmap/map
+      Update Layer Topic:
+        Value: /maps_manager_node/navmap/map_updates
+      Value: true
+    - Class: rviz_default_plugins/PoseArray
+      Color: 255; 25; 0
+      Enabled: true
+      Name: AMCL Particles
+      Topic:
+        Value: /localizer_node/amcl/particles
+      Value: true
+    - Class: rviz_default_plugins/Path
+      Color: 97; 53; 131
+      Enabled: true
+      Name: Path
+      Topic:
+        Value: /planner_node/astar/path
+      Value: true
+    - Class: rviz_default_plugins/TF
+      Enabled: true
+      Name: TF
+      Show Names: false
+      Value: true
+  Global Options:
+    Fixed Frame: map
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/SetInitialPose
+      Topic:
+        Value: /initialpose
+    - Class: rviz_default_plugins/SetGoal
+      Topic:
+        Value: /goal_pose
+    - Class: navmap_rviz_plugin/SetGoal
+      Topic:
+        Value: /goal_pose

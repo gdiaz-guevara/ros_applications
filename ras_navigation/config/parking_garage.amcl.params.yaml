@@ -1,0 +1,278 @@
+# Parking garage: NavMap stack with RPP, NavMap AMCL against the Bonxai map and A* over a
+# multi-level NavMap (floors stacked over the same footprint, linked by ramps).
+
+controller_node:
+  ros__parameters:
+    use_sim_time: true
+    # Robot velocity/acceleration limits: the controller plugins use them, and the velocity
+    # smoother enforces them on every command published (see ControllerNode).
+    robot_limits:
+      max_linear_vel: 1.0
+      min_linear_vel: -0.2
+      max_angular_vel: 1.0
+      max_linear_acc: 0.5
+      max_linear_decel: 1.0
+      max_angular_acc: 1.0
+      max_angular_decel: 2.0
+    controller_types: [rpp]
+    rpp:
+      rt_freq: 30.0
+      plugin: easynav_regulated_pp_controller/RegulatedPurePursuitController
+      # Area where obstacles regulate the velocity.
+      safety_margin: 0.1
+      use_dynamic_window: false
+      allow_reversing: false
+      # Lookahead, scaled for the Summit XL (radius 0.7 m)
+      lookahead_dist: 1.0
+      min_lookahead_dist: 0.5
+      max_lookahead_dist: 1.5
+      lookahead_time: 1.5
+      use_velocity_scaled_lookahead_dist: true
+      # Rotate to heading
+      use_rotate_to_heading: true
+      rotate_to_heading_angular_vel: 0.8
+      rotate_to_heading_min_angle: 0.785
+      # Curvature regulation
+      use_regulated_linear_velocity_scaling: true
+      regulated_linear_scaling_min_radius: 1.5
+      regulated_linear_scaling_min_speed: 0.2
+      use_fixed_curvature_lookahead: false
+      curvature_lookahead_dist: 1.5
+      interpolate_curvature_after_goal: false
+      # Obstacle-proximity regulation
+      use_obstacle_regulated_linear_velocity_scaling: true
+      obstacle_scaling_dist: 1.0
+      z_min_filter: 0.3           # ignore the ground seen by the 3D lidar and the depth camera
+      obstacle_scaling_gain: 0.8
+      # Approach to goal
+      min_approach_linear_velocity: 0.05
+      approach_velocity_scaling_dist: 1.0
+      # Goal tolerances (system_node: 0.3 m / 0.15 rad)
+      xy_goal_tolerance: 0.3
+      yaw_goal_tolerance: 0.15
+    mpc:
+      rt_freq: 30.0 
+      plugin: easynav_mpc_controller/MPCController
+    dummy:
+      rt_freq: 30.0 
+      plugin: easynav_controller/DummyController
+      cycle_time_nort: 0.01
+      cycle_time_rt: 0.001
+    mppi:
+      rt_freq: 30.0 
+      plugin: easynav_mppi_controller/MPPIController
+    serest:
+      rt_freq: 30.0 
+      plugin: easynav_serest_controller/SerestController
+      allow_reverse: true
+      v_progress_min: 0.08        # 8 cm/s de crucero mínimo cuando alineado
+      k_s_share_max: 0.5          # succión lateral no cancela >50% del avance
+      k_theta: 2.5                # sube un poco
+      k_y: 1.5
+      goal_pos_tol: 0.1          # 7 cm
+      goal_yaw_tol_deg: 6.0       # 6 grados
+      slow_radius: 0.60
+      slow_min_speed: 0.03
+      final_align_k: 2.0
+      final_align_wmax: 0.6
+      corner_guard_enable: true
+      corner_gain_ey: 1.8
+      corner_gain_eth: 0.7
+      corner_gain_kappa: 0.4
+      corner_min_alpha: 0.35
+      corner_boost_omega: 1.0
+      a_lat_soft: 0.9
+      apex_ey_des: 0.05
+    simple:
+      rt_freq: 30.0 
+      plugin: easynav_simple_controller/SimpleController
+      look_ahead_dist: 0.2
+      k_rot: 0.5
+
+localizer_node:
+  ros__parameters:
+    use_sim_time: true
+    localizer_types: [amcl]
+    amcl:
+      rt_freq: 50.0
+      freq: 5.0
+      reseed_freq: 1.0
+      plugin: easynav_navmap_localizer/AMCLLocalizer
+      downsampled_cloud_size: 0.3   # about the Bonxai map's voxels: enough points to tell poses apart
+      num_particles: 100
+      noise_translation: 0.1
+      noise_rotation: 0.03
+      noise_translation_to_rotation: 0.02
+      min_noise_xy: 0.2
+      min_noise_yaw: 0.1
+      compute_odom_from_tf: true 
+      initial_pose:
+        x: 0.0
+        y: 0.0
+        yaw: 0.0
+        std_dev_xy: 0.05
+        std_dev_yaw: 0.01
+    dummy:
+      rt_freq: 50.0
+      freq: 5.0
+      reseed_freq: 0.1
+      plugin: easynav_localizer/DummyLocalizer
+      cycle_time_nort: 0.01
+      cycle_time_rt: 0.001
+
+maps_manager_node:
+  ros__parameters:
+    use_sim_time: true
+    map_types: [bonxai, navmap]
+    bonxai:
+      freq: 10.0 
+      plugin: easynav_bonxai_maps_manager/BonxaiMapsManager
+      package: easynav_playground_summit_worlds
+      # Occupied 0.3 m voxels of the simulated scans: floors, walls, pillars and ceilings
+      bonxai_path_file: maps/parking_garage_bonxai.pcd
+    navmap:
+      freq: 10.0 
+      plugin: easynav_navmap_maps_manager/NavMapMapsManager
+      package: easynav_playground_summit_worlds
+      # Multi-level NavMap (from_points, 0.4 m cells, over the scans in maps/parking_garage.pcd):
+      # one surface whose floors 0-2 overlap in XY and connect through the ramps; the roof is not
+      # reachable.
+      navmap_path_file: maps/parking_garage.navmap
+      filters: [obstacles, inflation]
+      obstacles:
+        plugin: easynav_navmap_maps_manager/NavMapMapsManager/ObstaclesFilter
+        memory:                     # obstacles out of sight are remembered; rays clear them
+          enabled: true
+          p_hit: 0.55               # 3 hits in a row to mark a cell: a short tilt does not stain
+          decay_time: 10.0          # what is not seen again fades back in 10 s
+        max_range: 3.0              # only nearby points (robot frame): the static map covers the rest
+        min_height: 0.2             # entering or leaving a ramp tilts the robot: the floor ahead rises
+        min_height_per_meter: 0.05  # +0.05 m per meter from the robot (about 3 deg of tilt error)
+        max_height: 1.2             # robot height 1.0 m plus a margin (robot frame): the ceiling
+                                    # of each floor (about 2 m) is not an obstacle
+      # Without it the planner only sees the obstacles themselves and plans right next to them.
+      # Cells within robot_geometry.inscribed_radius are blocked; up to inflation_radius
+      # (beyond the 0.7 m robot radius) the cost keeps paths away from obstacles.
+      inflation:
+        plugin: easynav_navmap_maps_manager/NavMapMapsManager/InflationFilter
+        inflation_radius: 2.0          # wide cost band: paths keep to the middle of the aisles
+        cost_scaling_factor: 1.5
+
+planner_node:
+  ros__parameters:
+    use_sim_time: true
+    planner_types: [astart]
+    astart:
+      freq: 1.0
+      plugin: easynav_navmap_planner/AStarPlanner
+      cost_weight: 3.0             # default 5: the inflation cost weighs less, fewer detours
+      terrain:
+        slope_weight: 100.0        # weight * tan^2(slope) per m: 10 deg +3, 20 deg +13 (flat: 2)
+      
+
+sensors_node:
+  ros__parameters:
+    use_sim_time: true
+    forget_time: 0.5
+    sensors: [laser, camera, imu, gps]
+    perception_default_frame: odom
+    laser:
+      topic: front_laser/points
+      type: sensor_msgs/msg/PointCloud2
+    camera:
+      topic: front_camera/depth/color/points
+      type: sensor_msgs/msg/PointCloud2
+    imu:
+      topic: imu/data
+      type: sensor_msgs/msg/Imu
+    gps:
+      topic: gps/fix
+      type: sensor_msgs/msg/NavSatFix
+
+system_node:
+  ros__parameters:
+    # The robot's shape, shared by every component (collision checking, inflation, recovery...).
+    robot_geometry:
+      radius: 0.7
+      # The planner (point-based) and the collision reflex (radius) must agree: the robot is
+      # modeled as a 0.7 m circle, so plans never pass where the reflex would stop it
+      inscribed_radius: 0.7
+      height: 1.0
+    use_sim_time: true
+    use_real_time: true
+    # RT cycle at 50 Hz (default 200): no RT plugin runs faster, and the collision reflex
+    # filters the 3D lidar and depth camera clouds in every cycle.
+    rt_freq: 50.0
+    position_tolerance: 0.3
+    height_tolerance: 0.5    # a goal on another floor or level is not reached
+    angle_tolerance: 0.15
+
+recovery_node:
+  ros__parameters:
+    use_sim_time: true
+    # Recovery system: a RecoveryManagerBase plugin, with its own parameters below it (for the
+    # diagnostic one: safety reflexes, evaluators, mitigations and their arbitration).
+    recovery_manager:
+      plugin: easynav_diagnostic_recovery/DiagnosticRecoveryManager
+      # Level-0 safety reflex: stops the robot on imminent collision, checked every RT cycle
+      # whoever produced cmd_vel (controller or mitigation). See docs/recoveries_easynav.md.
+      safety_reflex_types: [collision]
+      collision:
+        plugin: easynav_diagnostic_recovery/CollisionSafetyReflex
+        z_min_filter: 0.3           # ignore the ground seen by the 3D lidar
+        debug_markers: true
+        downsample_leaf_size: 0.05
+        brake_acc: 1.0
+        safety_margin: 0.05
+      # Level-1 recovery (see docs/recoveries_easynav.md). Evaluators diagnose; mitigations are
+      # tried in priority order (lower first) for each ERROR diagnostic they can handle:
+      #   specific movement fixes (10) -> terminate EasyNav on a miswired graph (100)
+      #   -> wait for a human (1000) -> cancel the mission (2000).
+      evaluator_types: [no_path, obstacle_close, controller_stuck, ros_graph]
+      no_path:
+        plugin: easynav_diagnostic_recovery/NoPathEvaluator
+      obstacle_close:
+        plugin: easynav_diagnostic_recovery/ObstacleTooCloseEvaluator
+        z_min_filter: 0.3           # ignore the ground seen by the 3D lidar
+        safe_distance: 0.8          # ERROR if stopped this close (from the robot center, radius 0.7)...
+        debounce_duration: 0.5      # ...for this long (s)
+      controller_stuck:
+        plugin: easynav_diagnostic_recovery/ControllerStuckEvaluator
+        linear_velocity_threshold: 0.02
+        progress_distance_threshold: 0.05
+        stuck_time_threshold: 3.0
+      ros_graph:
+        plugin: easynav_diagnostic_recovery/RosGraphEvaluator
+        freq: 1.0
+        startup_grace: 15.0         # s after activation for the simulator/driver to come up
+        error_debounce: 2.0
+        # Optional inputs that may legitimately have no publisher.
+        ignored_topics: ["goal_pose", "initialpose", "incoming_map", "incoming_occ_map", "incoming_pc2_map"]
+        # Tools that only watch cmd_vel: they do not count as something driving the robot.
+        ignored_consumers: ["easynav_tui_*", "_ros2cli*"]
+      mitigation_types: [retreat, advance, shutdown, human_assistance, cancel_mission]
+      retreat:
+        plugin: easynav_diagnostic_recovery/SafeRetreatRecovery
+        priority: 10
+        z_min_filter: 0.3           # ignore the ground seen by the 3D lidar
+        safe_distance: 0.9          # > obstacle_close.safe_distance, so it does not re-trigger
+        retreat_speed: 0.1
+      advance:
+        plugin: easynav_diagnostic_recovery/AdvanceRecovery
+        priority: 10
+        advance_distance: 0.3
+        advance_speed: 0.1
+        escalate_after: 15.0        # s of repeated advances before giving up to the next rung
+        episode_gap: 10.0
+      shutdown:
+        plugin: easynav_diagnostic_recovery/ShutdownRecovery
+        priority: 100
+        handled_hardware_ids: ["ros_graph"]
+      human_assistance:
+        plugin: easynav_diagnostic_recovery/HumanAssistanceRecovery
+        priority: 1000
+        timeout: 30.0
+        ignored_hardware_ids: ["ros_graph"]
+      cancel_mission:
+        plugin: easynav_diagnostic_recovery/CancelMissionRecovery
+        priority: 2000

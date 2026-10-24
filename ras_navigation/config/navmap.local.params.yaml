@@ -1,0 +1,85 @@
+# Local NavMap: the NavMap maps manager rebuilds a NavMap around the robot, in base_footprint,
+# from the laser points in NavState (accumulated over the last 3 s), a few times per second.
+# Localizer, planner and controller are dummies: drive the robot with a teleop on /cmd_vel.
+
+controller_node:
+  ros__parameters:
+    use_sim_time: true
+    # The dummy controller would publish zeros on /cmd_vel all the time: send them elsewhere,
+    # so a teleop can drive the robot.
+    use_cmd_vel_stamped: true
+    controller_types: [dummy]
+    dummy:
+      rt_freq: 30.0
+      plugin: easynav_controller/DummyController
+
+localizer_node:
+  ros__parameters:
+    use_sim_time: true
+    localizer_types: [dummy]
+    dummy:
+      rt_freq: 50.0
+      freq: 5.0
+      plugin: easynav_localizer/DummyLocalizer
+
+maps_manager_node:
+  ros__parameters:
+    use_sim_time: true
+    map_types: [navmap]
+    navmap:
+      freq: 10.0
+      plugin: easynav_navmap_maps_manager/NavMapMapsManager
+      local:
+        enabled: true
+        frame: base_footprint
+        range: 8.0              # 16 x 16 m around the robot
+        min_z: -3.0             # terrain below and above the robot
+        max_z: 3.0
+        accumulate_time: 3.0    # scans put together before meshing (s): one is sparse rings
+        freq: 2.0               # rebuilds per second
+        downsample: 0.1
+        resolution: 0.4
+        max_dz: 0.25
+        max_slope_deg: 30.0
+        min_clearance: 1.0
+        min_surface_area: 1.0
+        max_hole_area: 2.0
+      filters: [obstacles, inflation]
+      obstacles:
+        plugin: easynav_navmap_maps_manager/NavMapMapsManager/ObstaclesFilter
+        max_range: 6.0
+        max_height: 1.2
+      inflation:
+        plugin: easynav_navmap_maps_manager/NavMapMapsManager/InflationFilter
+        inflation_radius: 1.5
+        cost_scaling_factor: 2.0
+
+planner_node:
+  ros__parameters:
+    use_sim_time: true
+    planner_types: [dummy]
+    dummy:
+      freq: 1.0
+      plugin: easynav_planner/DummyPlanner
+
+sensors_node:
+  ros__parameters:
+    use_sim_time: true
+    forget_time: 0.5
+    sensors: [laser]
+    perception_default_frame: odom
+    laser:
+      topic: front_laser/points
+      type: sensor_msgs/msg/PointCloud2
+
+system_node:
+  ros__parameters:
+    use_sim_time: true
+    use_real_time: true
+    robot_geometry:
+      radius: 0.7
+      inscribed_radius: 0.7
+      height: 1.0
+    position_tolerance: 0.3
+    height_tolerance: 0.5    # a goal on another floor or level is not reached
+    angle_tolerance: 0.15
