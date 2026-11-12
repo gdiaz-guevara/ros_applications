@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="naoH25V40">
+    <xacro:include filename="$(find nao_gz_controller)/urdf/nao_description.urdf"/>
+    <xacro:arg name="controller" default="ros_controller"/>
+
+    <gazebo>
+    <plugin filename="gz-sim-joint-trajectory-controller-system" name="gz::sim::systems::JointTrajectoryController">
+
+    <!-- ===== CABEZA ===== -->
+    <joint_name>HeadYaw</joint_name>
+    <initial_position>0.0</initial_position>
+    <position_p_gain>30</position_p_gain>
+    <position_i_gain>0.2</position_i_gain>
+    <position_d_gain>0.8</position_d_gain>
+    <position_cmd_min>-2.08567</position_cmd_min>
+    <position_cmd_max>2.08567</position_cmd_max>
+
+    <joint_name>HeadPitch</joint_name>
+    <initial_position>0.0</initial_position>
+    <position_p_gain>30</position_p_gain>
+    <position_i_gain>0.2</position_i_gain>
+    <position_d_gain>0.8</position_d_gain>
+    <position_cmd_min>-0.671952</position_cmd_min>
+    <position_cmd_max>0.514872</position_cmd_max>
+
+    <!-- ===== BRAZO IZQUIERDO ===== -->
+    <joint_name>LShoulderPitch</joint_name>
+    <initial_position>1.5</initial_position>
+    <position_p_gain>40</position_p_gain>
+    <position_i_gain>0.3</position_i_gain>
+    <position_d_gain>1.0</position_d_gain>
+    <position_cmd_min>-2.08567</position_cmd_min>
+    <position_cmd_max>2.08567</position_cmd_max>
+
+    <joint_name>LShoulderRoll</joint_name>
+    <initial_position>0.2</initial_position>
+    <position_p_gain>40</position_p_gain>
+    <position_i_gain>0.3</position_i_gain>
+    <position_d_gain>1.0</position_d_gain>
+    <position_cmd_min>-0.314159</position_cmd_min>
+    <position_cmd_max>1.32645</position_cmd_max>
+
+    <joint_name>LElbowYaw</joint_name>
+    <initial_position>-1.2</initial_position>
+    <position_p_gain>35</position_p_gain>
+    <position_i_gain>0.2</position_i_gain>
+    <position_d_gain>1.0</position_d_gain>
+    <position_cmd_min>-2.08567</position_cmd_min>
+    <position_cmd_max>2.08567</position_cmd_max>
+
+    <joint_name>LElbowRoll</joint_name>
+    <initial_position>-0.5</initial_position>
+    <position_p_gain>35</position_p_gain>
+    <position_i_gain>0.2</position_i_gain>
+    <position_d_gain>1.0</position_d_gain>
+    <position_cmd_min>-1.54462</position_cmd_min>
+    <position_cmd_max>-0.0349066</position_cmd_max>
+
+    <joint_name>LWristYaw</joint_name>
+    <initial_position>0.0</initial_position>
+    <position_p_gain>30</position_p_gain>
+    <position_i_gain>0.2</position_i_gain>
+    <position_d_gain>0.8</position_d_gain>
+    <position_cmd_min>-1.82387</position_cmd_min>
+    <position_cmd_max>1.82387</position_cmd_max>
+
+    <!-- ===== BRAZO DERECHO ===== -->
+    <joint_name>RShoulderPitch</joint_name>
+    <initial_position>1.5</initial_position>
+    <position_p_gain>40</position_p_gain>
+    <position_i_gain>0.3</position_i_gain>
+    <position_d_gain>1.0</position_d_gain>
+    <position_cmd_min>-2.08567</position_cmd_min>
+    <position_cmd_max>2.08567</position_cmd_max>
+
+    <joint_name>RShoulderRoll</joint_name>
+    <initial_position>-0.2</initial_position>
+    <position_p_gain>40</position_p_gain>
+    <position_i_gain>0.3</position_i_gain>
+    <position_d_gain>1.0</position_d_gain>
+    <position_cmd_min>-1.32645</position_cmd_min>
+    <position_cmd_max>0.314159</position_cmd_max>
+
+    <joint_name>RElbowYaw</joint_name>
+    <initial_position>1.2</initial_position>
+    <position_p_gain>35</position_p_gain>
+    <position_i_gain>0.2</position_i_gain>
+    <position_d_gain>1.0</position_d_gain>
+    <position_cmd_min>-2.08567</position_cmd_min>
+    <position_cmd_max>2.08567</position_cmd_max>
+
+    <joint_name>RElbowRoll</joint_name>
+    <initial_position>0.5</initial_position>
+    <position_p_gain>35</position_p_gain>
+    <position_i_gain>0.2</position_i_gain>
+    <position_d_gain>1.0</position_d_gain>
+    <position_cmd_min>0.0349066</position_cmd_min>
+    <position_cmd_max>1.54462</position_cmd_max>
+
+    <joint_name>RWristYaw</joint_name>
+    <initial_position>0.0</initial_position>
+    <position_p_gain>30</position_p_gain>
+    <position_i_gain>0.2</position_i_gain>
+    <position_d_gain>0.8</position_d_gain>
+    <position_cmd_min>-1.82387</position_cmd_min>
+    <position_cmd_max>1.82387</position_cmd_max>
+
+    </plugin>
+
+    <!-- ====================================================== -->
+    <!-- === CONTROL DE PIERNAS CON POSITION CONTROLLER === -->
+    <!-- ====================================================== -->
+    <plugin
+    filename="gz-sim-joint-position-controller-system"
+    name="gz::sim::systems::JointPositionController">
+
+    <!-- ===== PIERNA IZQUIERDA ===== -->
+    <joint_name>LHipYawPitch</joint_name>
+    <initial_position>0.0</initial_position>
+    <p_gain>50</p_gain> <i_gain>0.2</i_gain> <d_gain>1.0</d_gain>
+    <cmd_min>-1.14529</cmd_min> <cmd_max>0.740718</cmd_max>
+
+    <joint_name>LHipRoll</joint_name>
+    <initial_position>0.02</initial_position>
+    <p_gain>50</p_gain> <i_gain>0.2</i_gain> <d_gain>1.0</d_gain>
+    <cmd_min>-0.379435</cmd_min> <cmd_max>0.79046</cmd_max>
+
+    <joint_name>LHipPitch</joint_name>
+    <initial_position>-0.45</initial_position>
+    <p_gain>50</p_gain> <i_gain>0.2</i_gain> <d_gain>1.0</d_gain>
+    <cmd_min>-1.53589</cmd_min> <cmd_max>0.48398</cmd_max>
+
+    <joint_name>LKneePitch</joint_name>
+    <initial_position>0.7</initial_position>
+    <p_gain>60</p_gain> <i_gain>0.2</i_gain> <d_gain>1.0</d_gain>
+    <cmd_min>-0.0923279</cmd_min> <cmd_max>2.11255</cmd_max>
+
+    <joint_name>LAnklePitch</joint_name>
+    <initial_position>-0.25</initial_position>
+    <p_gain>50</p_gain> <i_gain>0.2</i_gain> <d_gain>1.0</d_gain>
+    <cmd_min>-1.18944</cmd_min> <cmd_max>0.922581</cmd_max>
+
+    <joint_name>LAnkleRoll</joint_name>
+    <initial_position>-0.02</initial_position>
+    <p_gain>50</p_gain> <i_gain>0.2</i_gain> <d_gain>1.0</d_gain>
+    <cmd_min>-0.397761</cmd_min> <cmd_max>0.768992</cmd_max>
+
+    <!-- ===== PIERNA DERECHA ===== -->
+    <joint_name>RHipYawPitch</joint_name>
+    <initial_position>0.0</initial_position>
+    <p_gain>50</p_gain> <i_gain>0.2</i_gain> <d_gain>1.0</d_gain>
+    <cmd_min>-1.14529</cmd_min> <cmd_max>0.740718</cmd_max>
+
+    <joint_name>RHipRoll</joint_name>
+    <initial_position>-0.02</initial_position>
+    <p_gain>50</p_gain> <i_gain>0.2</i_gain> <d_gain>1.0</d_gain>
+    <cmd_min>-0.79046</cmd_min> <cmd_max>0.379435</cmd_max>
+
+    <joint_name>RHipPitch</joint_name>
+    <initial_position>-0.45</initial_position>
+    <p_gain>50</p_gain> <i_gain>0.2</i_gain> <d_gain>1.0</d_gain>
+    <cmd_min>-1.53589</cmd_min> <cmd_max>0.48398</cmd_max>
+
+    <joint_name>RKneePitch</joint_name>
+    <initial_position>0.7</initial_position>
+    <p_gain>60</p_gain> <i_gain>0.2</i_gain> <d_gain>1.0</d_gain>
+    <cmd_min>-0.103083</cmd_min> <cmd_max>2.120198</cmd_max>
+
+    <joint_name>RAnklePitch</joint_name>
+    <initial_position>-0.25</initial_position>
+    <p_gain>50</p_gain> <i_gain>0.2</i_gain> <d_gain>1.0</d_gain>
+    <cmd_min>-1.1863</cmd_min> <cmd_max>0.932005</cmd_max>
+
+    <joint_name>RAnkleRoll</joint_name>
+    <initial_position>0.02</initial_position>
+    <p_gain>50</p_gain> <i_gain>0.2</i_gain> <d_gain>1.0</d_gain>
+    <cmd_min>-0.388676</cmd_min> <cmd_max>0.785875</cmd_max>
+
+    </plugin>
+
+
+</gazebo>
+</robot>

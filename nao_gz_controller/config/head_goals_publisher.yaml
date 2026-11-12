@@ -1,0 +1,22 @@
+# Goals for ros2_controllers_test_nodes/publisher_joint_trajectory_controller:
+#   ros2 run ros2_controllers_test_nodes publisher_joint_trajectory_controller --ros-args \
+#     --params-file $(ros2 pkg prefix nao_gz_controller)/share/nao_gz_controller/config/head_goals_publisher.yaml
+# It publishes one goal every wait_sec_between_publish seconds, cycling forever.
+publisher_position_trajectory_controller:   # node name of the test node
+  ros__parameters:
+    controller_name: "joint_trajectory_controller_head"
+    wait_sec_between_publish: 4
+
+    joints:              # order of the values below
+      - HeadYaw
+      - HeadPitch
+
+    goal_names: ["look_left", "center", "look_right", "look_down"]
+    look_left:
+      positions: [0.785, 0.0]
+    center:
+      positions: [0.0, 0.0]
+    look_right:
+      positions: [-0.785, 0.0]
+    look_down:
+      positions: [0.0, 0.4]   # HeadPitch limits: -0.67 .. 0.51 rad

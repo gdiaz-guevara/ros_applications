@@ -1,0 +1,147 @@
+# =============================================================================
+# NAO controllers for ros2_control (loaded by gz_ros2_control inside Gazebo)
+# =============================================================================
+# 1. controller_manager: update rate + the list of controller TYPES it can load
+# 2. one block per controller with its parameters
+# Every joint used here must exist in the <ros2_control> block of the URDF with
+# the same command/state interfaces.
+
+controller_manager:
+  ros__parameters:
+    update_rate: 1000  # Hz: how often read() -> update() -> write() runs
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    joint_trajectory_controller_head:
+      type: joint_trajectory_controller/JointTrajectoryController
+    joint_trajectory_controller_left_arm:
+      type: joint_trajectory_controller/JointTrajectoryController
+    joint_trajectory_controller_right_arm:
+      type: joint_trajectory_controller/JointTrajectoryController
+    joint_trajectory_controller_left_leg:
+      type: joint_trajectory_controller/JointTrajectoryController
+    joint_trajectory_controller_right_leg:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    # Alternative head controller: direct position commands on a topic.
+    # It claims the SAME joints as joint_trajectory_controller_head, so only
+    # one of the two can be active at a time (see "switch_controllers").
+    head_position_controller:
+      type: position_controllers/JointGroupPositionController
+
+
+# ---------------------------------------------------------------- HEAD (2 DOF)
+joint_trajectory_controller_head:
+  ros__parameters:
+    joints:
+      - HeadYaw
+      - HeadPitch
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    action_monitor_rate: 20.0          # Hz, feedback of the action
+    allow_partial_joints_goal: false   # goals must contain ALL joints
+    interpolate_from_desired_state: true
+    allow_integration_in_goal_trajectories: true
+    constraints:
+      stopped_velocity_tolerance: 0.01
+      goal_time: 0.0                   # 0 = no time limit to reach the goal
+
+head_position_controller:
+  ros__parameters:
+    joints:
+      - HeadYaw
+      - HeadPitch
+
+# ------------------------------------------------------------ LEFT ARM (5 DOF)
+joint_trajectory_controller_left_arm:
+  ros__parameters:
+    joints:
+      - LShoulderPitch
+      - LShoulderRoll
+      - LElbowYaw
+      - LElbowRoll
+      - LWristYaw
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    interpolate_from_desired_state: true
+    allow_integration_in_goal_trajectories: true
+    constraints:
+      stopped_velocity_tolerance: 0.01
+      goal_time: 0.0
+
+# ----------------------------------------------------------- RIGHT ARM (5 DOF)
+joint_trajectory_controller_right_arm:
+  ros__parameters:
+    joints:
+      - RShoulderPitch
+      - RShoulderRoll
+      - RElbowYaw
+      - RElbowRoll
+      - RWristYaw
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    interpolate_from_desired_state: true
+    allow_integration_in_goal_trajectories: true
+    constraints:
+      stopped_velocity_tolerance: 0.01
+      goal_time: 0.0
+
+# ------------------------------------------------------------ LEFT LEG (6 DOF)
+joint_trajectory_controller_left_leg:
+  ros__parameters:
+    joints:
+      - LHipYawPitch
+      - LHipRoll
+      - LHipPitch
+      - LKneePitch
+      - LAnklePitch
+      - LAnkleRoll
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    interpolate_from_desired_state: true
+    allow_integration_in_goal_trajectories: true
+    constraints:
+      stopped_velocity_tolerance: 0.01
+      goal_time: 0.0
+
+# ----------------------------------------------------------- RIGHT LEG (6 DOF)
+joint_trajectory_controller_right_leg:
+  ros__parameters:
+    joints:
+      - RHipYawPitch
+      - RHipRoll
+      - RHipPitch
+      - RKneePitch
+      - RAnklePitch
+      - RAnkleRoll
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    interpolate_from_desired_state: true
+    allow_integration_in_goal_trajectories: true
+    constraints:
+      stopped_velocity_tolerance: 0.01
+      goal_time: 0.0

@@ -1,0 +1,592 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="naoH25V40">
+    <link name="Head">
+        <inertial>
+            <mass value="0.60533"/>
+            <origin xyz="-0.00112 0 0.05258" rpy="0 -0 0"/>
+            <inertia ixx="0.0026313" ixy="8.78814e-06" ixz="4.09847e-05" iyy="0.00249112" iyz="-2.99579e-05" izz="0.000985736"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/HeadPitch.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.058" rpy="1.57 -0 0"/>
+            <geometry>
+                <cylinder radius="0.04" length="0.14"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="LAnkle">
+        <inertial>
+            <mass value="0.13416"/>
+            <origin xyz="0.00045 0.00029 0.00685" rpy="0 -0 0"/>
+            <inertia ixx="3.85098e-05" ixy="-2.634e-08" ixz="3.86194e-06" iyy="7.42653e-05" iyz="1.834e-08" izz="5.48654e-05"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/LAnklePitch.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+    </link>
+    <link name="LBicep">
+        <inertial>
+            <mass value="0.15777"/>
+            <origin xyz="0.02455 0.00563 0.0033" rpy="0 -0 0"/>
+            <inertia ixx="9.38999e-05" ixy="-4.71445e-05" ixz="-2.69947e-05" iyy="0.000371519" iyz="-2.45977e-06" izz="0.000341901"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/LShoulderRoll.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0.045 0 0" rpy="1.57 -5.55112e-17 1.8"/>
+            <geometry>
+                <cylinder radius="0.02" length="0.09"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="LElbow">
+        <inertial>
+            <mass value="0.06483"/>
+            <origin xyz="-0.02744 0 -0.00014" rpy="0 -0 0"/>
+            <inertia ixx="5.59715e-06" ixy="4.21e-09" ixz="4.319e-08" iyy="7.54331e-05" iyz="-1.84e-09" izz="7.64434e-05"/>
+        </inertial>
+    </link>
+    <link name="LForeArm">
+        <inertial>
+            <mass value="0.07761"/>
+            <origin xyz="0.02556 0.00281 0.00076" rpy="0 -0 0"/>
+            <inertia ixx="2.53322e-05" ixy="-2.34271e-06" ixz="7.459e-08" iyy="8.91322e-05" iyz="-2.655e-08" izz="8.72873e-05"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/LElbowRoll.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0.025325 0 0" rpy="1.57 -5.55112e-17 1.57"/>
+            <geometry>
+                <cylinder radius="0.02" length="0.05065"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="LHip">
+        <inertial>
+            <mass value="0.13053"/>
+            <origin xyz="-0.01549 0.00029 -0.00515" rpy="0 -0 0"/>
+            <inertia ixx="2.75835e-05" ixy="-2.233e-08" ixz="-4.08164e-06" iyy="9.82706e-05" iyz="-4.19e-09" izz="8.80997e-05"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/LHipRoll.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+    </link>
+    <link name="LPelvis">
+        <inertial>
+            <mass value="0.06981"/>
+            <origin xyz="-0.00781 -0.01114 0.02661" rpy="0 -0 0"/>
+            <inertia ixx="8.15023e-05" ixy="-4.99449e-06" ixz="1.27482e-05" iyy="0.000101326" iyz="2.34547e-05" izz="6.26236e-05"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/LHipYawPitch.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+    </link>
+    <link name="LShoulder">
+        <inertial>
+            <mass value="0.07504"/>
+            <origin xyz="-0.00165 -0.02663 0.00014" rpy="0 -0 0"/>
+            <inertia ixx="8.42843e-05" ixy="-2.02802e-06" ixz="2.338e-08" iyy="1.41556e-05" iyz="-1.972e-08" izz="8.64195e-05"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/LShoulderPitch.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+    </link>
+    <link name="LSole">
+        <inertial>
+            <mass value="0.16184"/>
+            <origin xyz="0.02542 0.0033 -0.03239" rpy="0 -0 0"/>
+            <inertia ixx="0.000269442" ixy="-5.69572e-06" ixz="0.000139379" iyy="0.000644343" iyz="1.87409e-05" izz="0.000525757"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/LAnkleRoll.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0.02 0.005 -0.037" rpy="0 -0 0"/>
+            <geometry>
+                <box size="0.16 0.085 0.015"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="LThigh">
+        <inertial>
+            <mass value="0.38968"/>
+            <origin xyz="0.00138 0.00221 -0.05373" rpy="0 -0 0"/>
+            <inertia ixx="0.00163672" ixy="9.2451e-07" ixz="8.53067e-05" iyy="0.00159107" iyz="3.83616e-05" izz="0.000303743"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/LHipPitch.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 -0.05" rpy="0 -0 0"/>
+            <geometry>
+                <cylinder radius="0.04" length="0.1"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="LTibia">
+        <inertial>
+            <mass value="0.29142"/>
+            <origin xyz="0.00453 0.00225 -0.04936" rpy="0 -0 0"/>
+            <inertia ixx="0.00118208" ixy="6.3362e-07" ixz="3.6497e-05" iyy="0.00112865" iyz="3.94952e-05" izz="0.000193227"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/LKneePitch.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 -0.05" rpy="0 -0 0"/>
+            <geometry>
+                <cylinder radius="0.04" length="0.1"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="LWrist">
+        <inertial>
+            <mass value="0.18533"/>
+            <origin xyz="0.03434 -0.00088 0.00308" rpy="0 -0 0"/>
+            <inertia ixx="7.05493e-05" ixy="5.71599e-06" ixz="-2.24744e-05" iyy="0.000356062" iyz="3.17771e-06" izz="0.000351919"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/LWristYaw.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0.039 0 0" rpy="1.27 -1.11022e-16 1.57"/>
+            <geometry>
+                <box size="0.06 0.04 0.058"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="Neck">
+        <inertial>
+            <mass value="0.06442"/>
+            <origin xyz="-1e-05 0 -0.02742" rpy="0 -0 0"/>
+            <inertia ixx="7.4993e-05" ixy="1.57e-09" ixz="-1.834e-08" iyy="7.6e-05" iyz="-5.295e-08" izz="5.53373e-06"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/HeadYaw.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+    </link>
+    <link name="RAnkle">
+        <inertial>
+            <mass value="0.13416"/>
+            <origin xyz="0.00045 -0.00029 0.00685" rpy="0 -0 0"/>
+            <inertia ixx="3.85081e-05" ixy="6.434e-08" ixz="3.87466e-06" iyy="7.43108e-05" iyz="-4.58e-09" izz="5.49131e-05"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/RAnklePitch.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+    </link>
+    <link name="RBicep">
+        <inertial>
+            <mass value="0.15777"/>
+            <origin xyz="0.02455 -0.00563 0.0033" rpy="0 -0 0"/>
+            <inertia ixx="0.00011012" ixy="7.66913e-05" ixz="-2.60461e-05" iyy="0.000367577" iyz="1.20983e-05" izz="0.000354618"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/RShoulderRoll.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0.045 0 0" rpy="1.57 5.55112e-17 -1.8"/>
+            <geometry>
+                <cylinder radius="0.02" length="0.09"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="RElbow">
+        <inertial>
+            <mass value="0.06483"/>
+            <origin xyz="-0.02744 0 -0.00014" rpy="0 -0 0"/>
+            <inertia ixx="5.59715e-06" ixy="4.21e-09" ixz="4.319e-08" iyy="7.54331e-05" iyz="-1.84e-09" izz="7.64434e-05"/>
+        </inertial>
+    </link>
+    <link name="RForeArm">
+        <inertial>
+            <mass value="0.07761"/>
+            <origin xyz="0.02556 -0.00281 0.00076" rpy="0 -0 0"/>
+            <inertia ixx="2.53907e-05" ixy="2.33243e-06" ixz="-6.0117e-07" iyy="8.92204e-05" iyz="2.694e-08" izz="8.72484e-05"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/RElbowRoll.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0.025325 0 0" rpy="1.57 -5.55112e-17 1.57"/>
+            <geometry>
+                <cylinder radius="0.02" length="0.05065"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="RHip">
+        <inertial>
+            <mass value="0.13053"/>
+            <origin xyz="-0.01549 -0.00029 -0.00515" rpy="0 -0 0"/>
+            <inertia ixx="2.75865e-05" ixy="-1.919e-08" ixz="-4.10822e-06" iyy="9.827e-05" iyz="2.51e-09" izz="8.81033e-05"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/RHipRoll.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+    </link>
+    <link name="RPelvis">
+        <inertial>
+            <mass value="0.06981"/>
+            <origin xyz="-0.00781 0.01114 0.02661" rpy="0 -0 0"/>
+            <inertia ixx="8.9972e-05" ixy="5.00219e-06" ixz="1.27352e-05" iyy="0.000105526" iyz="-2.77008e-05" izz="6.68872e-05"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/RHipYawPitch.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 -0.05" rpy="0 -0 0"/>
+            <geometry>
+                <cylinder radius="0.04" length="0.1"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="RShoulder">
+        <inertial>
+            <mass value="0.07504"/>
+            <origin xyz="-0.00165 0.02663 0.00014" rpy="0 -0 0"/>
+            <inertia ixx="8.42843e-05" ixy="2.02802e-06" ixz="2.338e-08" iyy="1.41556e-05" iyz="1.972e-08" izz="8.64195e-05"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/RShoulderPitch.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+    </link>
+    <link name="RSole">
+        <inertial>
+            <mass value="0.16184"/>
+            <origin xyz="0.02542 -0.0033 -0.03239" rpy="0 -0 0"/>
+            <inertia ixx="0.000269302" ixy="5.87505e-06" ixz="0.000139133" iyy="0.000643474" iyz="-1.88492e-05" izz="0.000525035"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/RAnkleRoll.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0.02 -0.005 -0.037" rpy="0 -0 0"/>
+            <geometry>
+                <box size="0.16 0.085 0.015"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="RThigh">
+        <inertial>
+            <mass value="0.38968"/>
+            <origin xyz="0.00138 -0.00221 -0.05373" rpy="0 -0 0"/>
+            <inertia ixx="0.00163748" ixy="-8.3954e-07" ixz="8.5883e-05" iyy="0.00159221" iyz="-3.91763e-05" izz="0.000303978"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/RHipPitch.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+    </link>
+    <link name="RTibia">
+        <inertial>
+            <mass value="0.29142"/>
+            <origin xyz="0.00453 -0.00225 -0.04936" rpy="0 -0 0"/>
+            <inertia ixx="0.00118283" ixy="-8.965e-07" ixz="2.79969e-05" iyy="0.00112828" iyz="-3.8476e-05" izz="0.000191453"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/RKneePitch.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 -0.05" rpy="0 -0 0"/>
+            <geometry>
+                <cylinder radius="0.04" length="0.1"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="RWrist">
+        <inertial>
+            <mass value="0.18533"/>
+            <origin xyz="0.03434 0.00088 0.00308" rpy="0 -0 0"/>
+            <inertia ixx="7.05493e-05" ixy="5.71599e-06" ixz="-2.24744e-05" iyy="0.000356062" iyz="3.17771e-06" izz="0.000351919"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/RWristYaw.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0.039 0 0" rpy="1.27 -1.11022e-16 1.57"/>
+            <geometry>
+                <box size="0.06 0.04 0.058"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="Torso">
+        <inertial>
+            <mass value="1.04956"/>
+            <origin xyz="-0.00413 0 0.04342" rpy="0 -0 0"/>
+            <inertia ixx="0.00506234" ixy="1.43116e-05" ixz="0.000155191" iyy="0.00488014" iyz="-2.70793e-05" izz="0.0016103"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <geometry>
+                <mesh filename="package://nao_gz_controller/meshes/V40/Torso.dae" scale="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.01" rpy="0 -0 0"/>
+            <geometry>
+                <box size="0.1 0.1 0.2115"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="HeadPitch" type="revolute">
+        <origin xyz="0 0 0" rpy="0 -0 0"/>
+        <axis xyz="0 1 0"/>
+        <parent link="Neck"/>
+        <child link="Head"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="40.25" velocity="7.19407" lower="-0.671952" upper="0.514872"/>
+    </joint>
+    <joint name="HeadYaw" type="revolute">
+        <origin xyz="0 0 0.1265" rpy="0 -0 0"/>
+        <axis xyz="0 0 1"/>
+        <parent link="Torso"/>
+        <child link="Neck"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="40.25" velocity="8.26797" lower="-2.08567" upper="2.08567"/>
+    </joint>
+    <joint name="LAnklePitch" type="revolute">
+        <origin xyz="0 0 -0.1029" rpy="0 -0 0"/>
+        <axis xyz="0 1 0"/>
+        <parent link="LTibia"/>
+        <child link="LAnkle"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="59.5" velocity="6.40239" lower="-1.18944" upper="0.922581"/>
+    </joint>
+    <joint name="LAnkleRoll" type="revolute">
+        <origin xyz="0 0 0" rpy="0 -0 0"/>
+        <axis xyz="1 0 0"/>
+        <parent link="LAnkle"/>
+        <child link="LSole"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="59.5" velocity="4.16174" lower="-0.397761" upper="0.768992"/>
+    </joint>
+    <joint name="LElbowRoll" type="revolute">
+        <origin xyz="0 0 0" rpy="0 -0 0"/>
+        <axis xyz="0 0 1"/>
+        <parent link="LElbow"/>
+        <child link="LForeArm"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="40.25" velocity="7.19407" lower="-1.54462" upper="-0.0349066"/>
+    </joint>
+    <joint name="LElbowYaw" type="revolute">
+        <origin xyz="0.105 0.015 0" rpy="0 -0 0"/>
+        <axis xyz="1 0 0"/>
+        <parent link="LBicep"/>
+        <child link="LElbow"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="40.25" velocity="8.26797" lower="-2.08567" upper="2.08567"/>
+    </joint>
+    <joint name="LHipPitch" type="revolute">
+        <origin xyz="0 0 0" rpy="0 -0 0"/>
+        <axis xyz="0 1 0"/>
+        <parent link="LHip"/>
+        <child link="LThigh"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="59.5" velocity="6.40239" lower="-1.53589" upper="0.48398"/>
+    </joint>
+    <joint name="LHipRoll" type="revolute">
+        <origin xyz="0 0 0" rpy="0 -0 0"/>
+        <axis xyz="1 0 0"/>
+        <parent link="LPelvis"/>
+        <child link="LHip"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="59.5" velocity="4.16174" lower="-0.379435" upper="0.79046"/>
+    </joint>
+    <joint name="LHipYawPitch" type="revolute">
+        <origin xyz="0 0.05 -0.085" rpy="0 -0 0"/>
+        <axis xyz="0 0.707107 -0.707107"/>
+        <parent link="Torso"/>
+        <child link="LPelvis"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="59.5" velocity="4.16174" lower="-1.14529" upper="0.740718"/>
+    </joint>
+    <joint name="LKneePitch" type="revolute">
+        <origin xyz="0 0 -0.1" rpy="0 -0 0"/>
+        <axis xyz="0 1 0"/>
+        <parent link="LThigh"/>
+        <child link="LTibia"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="59.5" velocity="6.40239" lower="-0.0923279" upper="2.11255"/>
+    </joint>
+    <joint name="LShoulderPitch" type="revolute">
+        <origin xyz="0 0.098 0.1" rpy="0 -0 0"/>
+        <axis xyz="0 1 0"/>
+        <parent link="Torso"/>
+        <child link="LShoulder"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="40.25" velocity="8.26797" lower="-2.08567" upper="2.08567"/>
+    </joint>
+    <joint name="LShoulderRoll" type="revolute">
+        <origin xyz="0 0 0" rpy="0 -0 0"/>
+        <axis xyz="0 0 1"/>
+        <parent link="LShoulder"/>
+        <child link="LBicep"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="40.25" velocity="7.19407" lower="-0.314159" upper="1.32645"/>
+    </joint>
+    <joint name="LWristYaw" type="revolute">
+        <origin xyz="0.05595 0 0" rpy="0 -0 0"/>
+        <axis xyz="1 0 0"/>
+        <parent link="LForeArm"/>
+        <child link="LWrist"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="40.25" velocity="24.6229" lower="-1.82387" upper="1.82387"/>
+    </joint>
+    <joint name="RAnklePitch" type="revolute">
+        <origin xyz="0 0 -0.1029" rpy="0 -0 0"/>
+        <axis xyz="0 1 0"/>
+        <parent link="RTibia"/>
+        <child link="RAnkle"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="59.5" velocity="6.40239" lower="-1.1863" upper="0.932006"/>
+    </joint>
+    <joint name="RAnkleRoll" type="revolute">
+        <origin xyz="0 0 0" rpy="0 -0 0"/>
+        <axis xyz="1 0 0"/>
+        <parent link="RAnkle"/>
+        <child link="RSole"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="59.5" velocity="4.16174" lower="-0.768992" upper="0.397935"/>
+    </joint>
+    <joint name="RElbowRoll" type="revolute">
+        <origin xyz="0 0 0" rpy="0 -0 0"/>
+        <axis xyz="0 0 1"/>
+        <parent link="RElbow"/>
+        <child link="RForeArm"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="40.25" velocity="7.19407" lower="0.0349066" upper="1.54462"/>
+    </joint>
+    <joint name="RElbowYaw" type="revolute">
+        <origin xyz="0.105 -0.015 0" rpy="0 -0 0"/>
+        <axis xyz="1 0 0"/>
+        <parent link="RBicep"/>
+        <child link="RElbow"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="40.25" velocity="8.26797" lower="-2.08567" upper="2.08567"/>
+    </joint>
+    <joint name="RHipPitch" type="revolute">
+        <origin xyz="0 0 0" rpy="0 -0 0"/>
+        <axis xyz="0 1 0"/>
+        <parent link="RHip"/>
+        <child link="RThigh"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="59.5" velocity="6.40239" lower="-1.53589" upper="0.48398"/>
+    </joint>
+    <joint name="RHipRoll" type="revolute">
+        <origin xyz="0 0 0" rpy="0 -0 0"/>
+        <axis xyz="1 0 0"/>
+        <parent link="RPelvis"/>
+        <child link="RHip"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="59.5" velocity="4.16174" lower="-0.79046" upper="0.379435"/>
+    </joint>
+    <joint name="RHipYawPitch" type="revolute">
+        <origin xyz="0 -0.05 -0.085" rpy="0 -0 0"/>
+        <axis xyz="0 0.707107 0.707107"/>
+        <parent link="Torso"/>
+        <child link="RPelvis"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="59.5" velocity="4.16174" lower="-1.14529" upper="0.740718"/>
+    </joint>
+    <joint name="RKneePitch" type="revolute">
+        <origin xyz="0 0 -0.1" rpy="0 -0 0"/>
+        <axis xyz="0 1 0"/>
+        <parent link="RThigh"/>
+        <child link="RTibia"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="59.5" velocity="6.40239" lower="-0.0923279" upper="2.11255"/>
+    </joint>
+    <joint name="RShoulderPitch" type="revolute">
+        <origin xyz="0 -0.098 0.1" rpy="0 -0 0"/>
+        <axis xyz="0 1 0"/>
+        <parent link="Torso"/>
+        <child link="RShoulder"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="40.25" velocity="8.26797" lower="-2.08567" upper="2.08567"/>
+    </joint>
+    <joint name="RShoulderRoll" type="revolute">
+        <origin xyz="0 0 0" rpy="0 -0 0"/>
+        <axis xyz="0 0 1"/>
+        <parent link="RShoulder"/>
+        <child link="RBicep"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="40.25" velocity="7.19407" lower="-1.32645" upper="0.314159"/>
+    </joint>
+    <joint name="RWristYaw" type="revolute">
+        <origin xyz="0.05595 0 0" rpy="0 -0 0"/>
+        <axis xyz="1 0 0"/>
+        <parent link="RForeArm"/>
+        <child link="RWrist"/>
+        <dynamics damping="0.1" friction="0"/>
+        <limit effort="40.25" velocity="24.6229" lower="-1.82387" upper="1.82387"/>
+    </joint>
+</robot>

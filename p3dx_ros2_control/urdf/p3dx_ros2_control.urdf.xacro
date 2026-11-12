@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="p3dx">
+
+  <!-- true: fake hardware without simulator (mock_components), false: Gazebo -->
+  <xacro:arg name="use_mock_hardware" default="false"/>
+
+  <!-- 1. The robot itself (links, joints, meshes): unchanged -->
+  <xacro:include filename="$(find rasbot_description)/urdf/p3dx.urdf.xacro"/>
+
+  <!-- 2. ros2_control: which joints the hardware exposes and how -->
+  <ros2_control name="P3DXSystem" type="system">
+    <hardware>
+      <!-- The ONLY line that changes between simulation, mock and the real robot:
+           it names the hardware plugin (on a real P3DX: the driver of its motor board). -->
+      <xacro:if value="$(arg use_mock_hardware)">
+        <plugin>mock_components/GenericSystem</plugin>
+        <param name="calculate_dynamics">true</param>  <!-- integrate velocity -> position -->
+      </xacro:if>
+      <xacro:unless value="$(arg use_mock_hardware)">
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+      </xacro:unless>
+    </hardware>
+
+    <!-- Drive wheels: we COMMAND velocity and READ position + velocity -->
+    <joint name="p3dx_left_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-10</param>
+        <param name="max">10</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="p3dx_right_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-10</param>
+        <param name="max">10</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- Passive caster joints: state only (so joint_state_broadcaster publishes
+         them and robot_state_publisher can compute their TF) -->
+    <joint name="base_caster_swivel_joint">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="caster_swivel_wheel_joint">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+
+  <!-- 3. The Gazebo plugin that runs the controller_manager INSIDE the simulator -->
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find p3dx_ros2_control)/config/p3dx_controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+  <!-- 4. LiDAR (same as the SLAM module) so the robot can map/navigate -->
+  <gazebo reference="rplidar_link">
+    <sensor name="rplidar_sensor" type="gpu_lidar">
+      <gz_frame_id>rplidar_link</gz_frame_id>
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+      <update_rate>10</update_rate>
+      <topic>scan</topic>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159</min_angle>
+            <max_angle>3.14159</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.20</min>
+          <max>12.0</max>
+          <resolution>0.01</resolution>
+        </range>
+      </lidar>
+    </sensor>
+  </gazebo>
+
+  <!-- 5. Gazebo colors -->
+  <xacro:include filename="$(find p3dx_gazebo)/urdf/robot_material_support.xacro"/>
+
+</robot>

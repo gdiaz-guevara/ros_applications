@@ -1,0 +1,44 @@
+# =============================================================================
+# P3DX controllers for ros2_control
+# =============================================================================
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
+
+
+diff_drive_controller:
+  ros__parameters:
+    # --- Kinematics: the same numbers as the URDF -----------------------------
+    left_wheel_names: ["p3dx_left_wheel_joint"]
+    right_wheel_names: ["p3dx_right_wheel_joint"]
+    wheel_separation: 0.316       # 2 x 0.158 m
+    wheel_radius: 0.09            # wheel collision radius
+
+    # --- Odometry ---------------------------------------------------------------
+    odom_frame_id: odom
+    base_frame_id: base_link
+    enable_odom_tf: true          # publish odom -> base_link on /tf
+    publish_rate: 50.0            # Hz
+    open_loop: false              # compute odometry from wheel feedback
+    position_feedback: false      # use the wheel VELOCITY state for odometry
+    pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
+    twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
+
+    # --- Command ----------------------------------------------------------------
+    cmd_vel_timeout: 0.5          # s: stop if no command arrives (safety!)
+
+    # --- Limits applied to the incoming command ---------------------------------
+    linear.x.max_velocity: 0.8
+    linear.x.min_velocity: -0.8
+    linear.x.max_acceleration: 1.0
+    linear.x.min_acceleration: -1.0
+    angular.z.max_velocity: 2.0
+    angular.z.min_velocity: -2.0
+    angular.z.max_acceleration: 3.0
+    angular.z.min_acceleration: -3.0
