@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="parking_garage_ground_plane">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>70 160 0.02</size>
+          </box>
+        </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0.000000 0.000000 1.000000</fdir1>
+                <!-- <slip1>0.150000</slip1>
+                <slip2>0.150000</slip2> -->
+              </ode>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0.000000</restitution_coefficient>
+              <threshold>100000.000000</threshold>
+            </bounce>
+            <contact>
+              <ode>
+                <soft_cfm>9.00000</soft_cfm>
+                <soft_erp>9.00000</soft_erp>
+                <kp>100.000000</kp>
+                <kd>1.000000</kd>
+                <max_vel>1000.000000</max_vel>
+                <min_depth>0.001000</min_depth>
+              </ode>
+            </contact>
+          </surface>
+      </collision>
+      <visual name="visual">
+        <cast_shadows>false</cast_shadows>
+        <geometry>
+          <box>
+            <size>70 160 0.02</size>
+          </box>
+        </geometry>
+        <material>
+            <ambient>0.3 0.3 0.3 1</ambient>
+            <diffuse>0.7 0.7 0.7 1</diffuse>
+            <specular>0.01 0.01 0.01 1</specular>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

@@ -184,7 +184,7 @@
       </plugin>
 
       <!-- Insert lights -->
-      <plugin filename="Lights" name="Lights">
+     <plugin filename="Lights" name="Lights">
         <gz-gui>
           <property key="resizable" type="bool">false</property>
           <property key="x" type="double">250</property>
@@ -251,7 +251,7 @@
         <gz-gui>
           <property type="string" key="state">docked_collapsed</property>
         </gz-gui>
-      </plugin>
+      </plugin>>
 
     </gui>
 
