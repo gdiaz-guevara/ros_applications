@@ -167,7 +167,7 @@ sensors_node:
   ros__parameters:
     use_sim_time: true
     forget_time: 1.5
-    sensors: [laser, imu, gps]
+    sensors: [laser, imu, gps] #camera
     perception_default_frame: odom
     laser:
       topic: /front/scan/points

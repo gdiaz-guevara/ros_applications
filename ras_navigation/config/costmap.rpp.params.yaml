@@ -75,7 +75,7 @@ maps_manager_node:
       freq: 10.0 
       plugin: easynav_costmap_maps_manager/CostmapMapsManager
       package: ras_navigation
-      map_path_file: maps/home2.yaml
+      map_path_file: maps/house.yaml
       filters: [obstacles, inflation]
       obstacles:
         plugin: easynav_costmap_maps_manager/CostmapMapsManager/ObstaclesFilter
@@ -111,7 +111,7 @@ system_node:
       inscribed_radius: 0.21  # Jackal base is roughly 0.42x0.31
       height: 0.3
     use_sim_time: true
-    use_real_time: false
+    use_real_time: true
     position_tolerance: 0.3
     angle_tolerance: 0.15
 

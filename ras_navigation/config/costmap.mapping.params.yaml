@@ -45,7 +45,7 @@ sensors_node:
     sensors: [laser1]
     perception_default_frame: odom
     laser1:
-      topic: scan_raw
+      topic: /front/scan
       type: sensor_msgs/msg/LaserScan
 
 system_node:
