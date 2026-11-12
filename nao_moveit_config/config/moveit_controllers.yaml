@@ -1,0 +1,28 @@
+# How MoveIt EXECUTES a planned trajectory: it sends it to these
+# FollowJointTrajectory action servers. They are the joint_trajectory_controllers
+# started by nao_gz_controller (ros2_control). Names must match exactly.
+moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+moveit_simple_controller_manager:
+  controller_names:
+    - joint_trajectory_controller_right_arm
+    - joint_trajectory_controller_left_arm
+    - joint_trajectory_controller_head
+
+  joint_trajectory_controller_right_arm:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
+    joints: [RShoulderPitch, RShoulderRoll, RElbowYaw, RElbowRoll, RWristYaw]
+
+  joint_trajectory_controller_left_arm:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
+    joints: [LShoulderPitch, LShoulderRoll, LElbowYaw, LElbowRoll, LWristYaw]
+
+  joint_trajectory_controller_head:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
+    joints: [HeadYaw, HeadPitch]

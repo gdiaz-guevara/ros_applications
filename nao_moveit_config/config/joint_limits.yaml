@@ -1,0 +1,67 @@
+# Velocity / acceleration limits used by MoveIt to time-parameterize trajectories.
+# Velocities come from the URDF <limit>; the URDF has no acceleration limits,
+# so we add them here (MoveIt needs them). Scaled down for a smooth, safe robot.
+default_velocity_scaling_factor: 0.5
+default_acceleration_scaling_factor: 0.5
+
+joint_limits:
+  HeadYaw:
+    has_velocity_limits: true
+    max_velocity: 3.00
+    has_acceleration_limits: true
+    max_acceleration: 3.0
+  HeadPitch:
+    has_velocity_limits: true
+    max_velocity: 3.00
+    has_acceleration_limits: true
+    max_acceleration: 3.0
+  RShoulderPitch:
+    has_velocity_limits: true
+    max_velocity: 3.00
+    has_acceleration_limits: true
+    max_acceleration: 3.0
+  RShoulderRoll:
+    has_velocity_limits: true
+    max_velocity: 3.00
+    has_acceleration_limits: true
+    max_acceleration: 3.0
+  RElbowYaw:
+    has_velocity_limits: true
+    max_velocity: 3.00
+    has_acceleration_limits: true
+    max_acceleration: 3.0
+  RElbowRoll:
+    has_velocity_limits: true
+    max_velocity: 3.00
+    has_acceleration_limits: true
+    max_acceleration: 3.0
+  RWristYaw:
+    has_velocity_limits: true
+    max_velocity: 3.00
+    has_acceleration_limits: true
+    max_acceleration: 3.0
+  LShoulderPitch:
+    has_velocity_limits: true
+    max_velocity: 3.00
+    has_acceleration_limits: true
+    max_acceleration: 3.0
+  LShoulderRoll:
+    has_velocity_limits: true
+    max_velocity: 3.00
+    has_acceleration_limits: true
+    max_acceleration: 3.0
+  LElbowYaw:
+    has_velocity_limits: true
+    max_velocity: 3.00
+    has_acceleration_limits: true
+    max_acceleration: 3.0
+  LElbowRoll:
+    has_velocity_limits: true
+    max_velocity: 3.00
+    has_acceleration_limits: true
+    max_acceleration: 3.0
+  LWristYaw:
+    has_velocity_limits: true
+    max_velocity: 3.00
+    has_acceleration_limits: true
+    max_acceleration: 3.0
